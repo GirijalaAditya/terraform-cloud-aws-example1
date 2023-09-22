@@ -12,12 +12,24 @@ resource "aws_s3_bucket_versioning" "s3_bucket_vers" {
   }
 }
 
+resource "aws_s3_object" "s3_object_1" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  key = "index.html"
+  source = file("s3-website-files/index.html")
+}
+
+resource "aws_s3_object" "s3_object_2" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  key = "index.html"
+  source = file("s3-website-files/error.html")
+}
+
 resource "aws_s3_bucket_website_configuration" "s3_website" {
   bucket = aws_s3_bucket.s3_bucket.id
   index_document {
-    suffix = "s3-websites-files/index.html"
+    suffix = "index.html"
   }
   error_document {
-    key = "s3-websites-files/error.html"
+    key = "error.html"
   }
 }
