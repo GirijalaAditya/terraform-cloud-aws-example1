@@ -5,6 +5,14 @@ resource "aws_s3_bucket" "s3_bucket" {
   force_destroy = true
 }
 
+resource "aws_s3_bucket_public_access_block" "s3_public_access" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  block_public_policy = false
+  block_public_acls = false
+  ignore_public_acls = true
+  restrict_public_buckets = false
+}
+
 resource "aws_s3_bucket_versioning" "s3_bucket_vers" {
   bucket = aws_s3_bucket.s3_bucket.id
   versioning_configuration {
