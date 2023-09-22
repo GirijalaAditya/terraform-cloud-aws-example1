@@ -15,13 +15,13 @@ resource "aws_s3_bucket_versioning" "s3_bucket_vers" {
 resource "aws_s3_object" "s3_object_1" {
   bucket = aws_s3_bucket.s3_bucket.id
   key = "index.html"
-  source = file("${path.module}/s3-website-files/index.html")
+  source = file("${path.module}/index.html")
 }
 
 resource "aws_s3_object" "s3_object_2" {
   bucket = aws_s3_bucket.s3_bucket.id
   key = "error.html"
-  source = file("${path.module}/s3-website-files/error.html")
+  source = file("${path.module}/error.html")
 }
 
 resource "aws_s3_bucket_website_configuration" "s3_website" {
