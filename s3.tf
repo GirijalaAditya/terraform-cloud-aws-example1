@@ -20,7 +20,7 @@ resource "aws_s3_object" "s3_object_1" {
 
 resource "aws_s3_object" "s3_object_2" {
   bucket = aws_s3_bucket.s3_bucket.id
-  key = "index.html"
+  key = "error.html"
   source = file("s3-website-files/error.html")
 }
 
