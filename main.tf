@@ -44,6 +44,10 @@ resource "aws_s3_bucket_policy" "s3_bucket_policy" {
 
 data "aws_iam_policy_document" "allow_bucket_access" {
   statement {
+    principals {
+      type = "*"
+      identifiers = [ "*" ]
+    }
     actions = [
       "s3:GetObject",
       "s3:ListBucket",
