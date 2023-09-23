@@ -32,8 +32,8 @@ resource "aws_s3_bucket_policy" "name" {
         "s3:GetObject"
       ],
       "Resource": [
-		    aws_s3_bucket.s3_bucket.arn,
-		    "${aws_s3_bucket.s3_bucket.arn}/*",
+		    "${aws_s3_bucket.s3_bucket.arn}",
+		    "${aws_s3_bucket.s3_bucket.arn}/*"
 	    ]
     }
   ]
