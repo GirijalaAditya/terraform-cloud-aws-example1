@@ -21,27 +21,39 @@ resource "aws_s3_bucket_versioning" "s3_bucket_vers" {
 
 resource "aws_s3_bucket_policy" "s3_bucket_policy" {
   bucket = aws_s3_bucket.s3_bucket.id
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": [
-        "s3:GetObject"
-      ],
-      "Resource": [
-		    "${aws_s3_bucket.s3_bucket.arn}",
-		    "${aws_s3_bucket.s3_bucket.arn}/*"
-	    ]
-    }
-  ]
-}
-EOF
+  policy = data.aws_iam_policy_document.allow_bucket_access.json
+#   policy = <<EOF
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Principal": "*",
+#       "Action": [
+#         "s3:GetObject"
+#       ],
+#       "Resource": [
+# 		    "${aws_s3_bucket.s3_bucket.arn}",
+# 		    "${aws_s3_bucket.s3_bucket.arn}/*"
+# 	    ]
+#     }
+#   ]
+# }
+# EOF
 }
 
-
+data "aws_iam_policy_document" "allow_bucket_access" {
+  statement {
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket",
+    ]
+    resources = [
+      	"${aws_s3_bucket.s3_bucket.arn}",
+	"${aws_s3_bucket.s3_bucket.arn}/*",
+    ]
+  }
+}
 
 resource "aws_s3_object" "s3_object_1" {
   bucket = aws_s3_bucket.s3_bucket.id
