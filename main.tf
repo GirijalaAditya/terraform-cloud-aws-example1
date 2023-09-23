@@ -61,14 +61,14 @@ data "aws_iam_policy_document" "allow_bucket_access" {
 resource "aws_s3_object" "s3_object_1" {
   bucket = aws_s3_bucket.s3_bucket.id
   storage_class = "STANDARD"
-  key = "index.html"
+  key = "index"
   source = "./files/index.html"
 }
 
 resource "aws_s3_object" "s3_object_2" {
   bucket = aws_s3_bucket.s3_bucket.id
   storage_class = "STANDARD"
-  key = "error.html"
+  key = "error"
   source = "./files/error.html"
 }
 
