@@ -13,6 +13,7 @@ resource "aws_s3_bucket_public_access_block" "s3_public_access" {
 }
 
 resource "aws_s3_bucket_versioning" "s3_bucket_vers" {
+  depends_on = [ aws_s3_bucket_public_access_block.s3_public_access ]
   bucket = aws_s3_bucket.s3_bucket.id
   versioning_configuration {
     status = "Enabled"
@@ -20,6 +21,7 @@ resource "aws_s3_bucket_versioning" "s3_bucket_vers" {
 }
 
 resource "aws_s3_bucket_policy" "s3_bucket_policy" {
+  depends_on = [ aws_s3_bucket_versioning.s3_bucket_vers ]
   bucket = aws_s3_bucket.s3_bucket.id
   policy = data.aws_iam_policy_document.allow_bucket_access.json
 #   policy = <<EOF
@@ -61,18 +63,24 @@ data "aws_iam_policy_document" "allow_bucket_access" {
 resource "aws_s3_object" "s3_object_1" {
   bucket = aws_s3_bucket.s3_bucket.id
   storage_class = "STANDARD"
-  key = "index"
+  key = "index.html"
   source = "./files/index.html"
 }
 
 resource "aws_s3_object" "s3_object_2" {
   bucket = aws_s3_bucket.s3_bucket.id
   storage_class = "STANDARD"
-  key = "error"
+  key = "error.html"
   source = "./files/error.html"
 }
 
 resource "aws_s3_bucket_website_configuration" "s3_website" {
+  depends_on = [ 
+    aws_s3_bucket.s3_bucket,
+    aws_s3_bucket_versioning.s3_bucket_vers,
+    aws_s3_object.s3_object_1,
+    aws_s3_object.s3_object_2
+   ]
   bucket = aws_s3_bucket.s3_bucket.id
   index_document {
     suffix = "index.html"
