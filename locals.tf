@@ -3,7 +3,7 @@ locals {
   environment = var.environment
   prefix = "${var.business_division}-${var.environment}"
   common_tags = {
-    Environment = local.environment
+    "Environment" = local.environment
     "Business_Division" = local.business_division
   }
 }
