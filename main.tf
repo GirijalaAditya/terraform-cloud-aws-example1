@@ -8,7 +8,7 @@ resource "aws_s3_bucket_public_access_block" "s3_public_access" {
   bucket = aws_s3_bucket.s3_bucket.id
   block_public_policy = false
   block_public_acls = false
-  ignore_public_acls = true
+  ignore_public_acls = false
   restrict_public_buckets = false
 }
 
@@ -50,11 +50,10 @@ data "aws_iam_policy_document" "allow_bucket_access" {
     }
     actions = [
       "s3:GetObject",
-      "s3:ListBucket",
     ]
     resources = [
       	"${aws_s3_bucket.s3_bucket.arn}",
-	"${aws_s3_bucket.s3_bucket.arn}/*",
+	      "${aws_s3_bucket.s3_bucket.arn}/*",
     ]
   }
 }
